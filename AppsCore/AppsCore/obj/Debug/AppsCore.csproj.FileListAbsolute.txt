@@ -1,0 +1,6 @@
+E:\Apps\AppsCore\AppsCore\bin\AppsCore.dll.config
+E:\Apps\AppsCore\AppsCore\bin\AppsCore.dll
+E:\Apps\AppsCore\AppsCore\bin\AppsCore.pdb
+E:\Apps\AppsCore\AppsCore\obj\Debug\AppsCore.csprojResolveAssemblyReference.cache
+E:\Apps\AppsCore\AppsCore\obj\Debug\AppsCore.dll
+E:\Apps\AppsCore\AppsCore\obj\Debug\AppsCore.pdb

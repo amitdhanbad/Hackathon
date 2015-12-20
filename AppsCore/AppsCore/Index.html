@@ -1,0 +1,591 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        ///////////////for Auction Details//////////////////////////////////////
+        function addAuction() {
+            var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            db.transaction(function (tx) {
+                tx.executeSql('SELECT * FROM Team', [], function (tx, results) {
+                    var len = results.rows.length;
+                    var i;
+                    var record = "";
+                    //  alert(len);
+                    for (i = 0; i < len; i++) {
+                        //   record = results.rows.item(i).TeamName
+                        record = record + '<option value=' + results.rows.item(i).TeamName + '>' + results.rows.item(i).TeamName + '</option>';
+                        //  alert(record);
+                    }
+                    document.getElementById("teamAA").innerHTML = record;
+
+                }, null);
+            });
+            db.transaction(function (tx) {
+                tx.executeSql('SELECT * FROM Player', [], function (tx, results) {
+                    var len = results.rows.length;
+                    var i;
+                    var record = "";
+                    // alert(len);
+                    for (i = 0; i < len; i++) {
+                        //   record = results.rows.item(i).TeamName
+                        record = record + '<option value=' + results.rows.item(i).name + '>' + results.rows.item(i).name + '</option>';
+                        //    alert(record);
+                    }
+                    document.getElementById("teamBB").innerHTML = record;
+
+                }, null);
+            });
+        }
+        //////////////////////////load the details of player team ////////////////
+        function loadInfo() {
+            var teamA = document.getElementById('teamW').value;
+            var teamB = document.getElementById('teamLower').value;
+            alert(teamA);
+            alert(teamB);
+            var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            db.transaction(function (tx) {
+                tx.executeSql('SELECT * FROM auction where TeamName=?', [teamA], function (tx, results) {
+                    var len = results.rows.length;
+                    var i;
+                    var record = "";
+                    //  alert(len);
+                    for (i = 0; i < len; i++) {
+                        //   record = results.rows.item(i).TeamName
+                        record = record + '<option value=' + results.rows.item(i).name + '>' + results.rows.item(i).name + '</option>';
+                        //  alert(record);
+                    }
+                    document.getElementById("nameofman").innerHTML = record;
+                    //  document.getElementById("nameofman1").innerHTML = record;
+
+                }, null);
+            });
+            db.transaction(function (tx) {
+                tx.executeSql('SELECT * FROM auction where TeamName=?', [teamB], function (tx, results) {
+                    var len = results.rows.length;
+                    var i;
+                    var record = "";
+                    //  alert(len);
+                    for (i = 0; i < len; i++) {
+                        //   record = results.rows.item(i).TeamName
+                        record = record + '<option value=' + results.rows.item(i).name + '>' + results.rows.item(i).name + '</option>';
+                        //  alert(record);
+                    }
+                    //  document.getElementById("nameofman").innerHTML = record;
+                    document.getElementById("nameofman1").innerHTML = record;
+
+                }, null);
+            });
+        }
+        ///////////////////////////for Inning Decesion/////////////////////////////////
+        function addInningToss() {
+            var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            db.transaction(function (tx) {
+                tx.executeSql('SELECT * FROM Team', [], function (tx, results) {
+                    var len = results.rows.length;
+                    var i;
+                    var record = "";
+                    //  alert(len);
+                    for (i = 0; i < len; i++) {
+                        //   record = results.rows.item(i).TeamName
+                        record = record + '<option value=' + results.rows.item(i).TeamName + '>' + results.rows.item(i).TeamName + '</option>';
+                        //   alert(record);
+                    }
+                    document.getElementById("teamW").innerHTML = record;
+                    document.getElementById("teamLower").innerHTML = record;
+
+                }, null);
+            });
+        }
+        //////////////for Add Action//////////////////////////////////////////////////
+        function addinfoAuction() {
+            var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            var TeamName = document.getElementById('teamAA').value;
+            var name = document.getElementById('teamBB').value;
+            //  alert(TeamName);
+            //  alert(name);
+            db.transaction(function (tx) {
+                tx.executeSql('CREATE TABLE IF NOT EXISTS auction (TeamName text not null,name text not null)');
+                tx.executeSql('INSERT INTO auction(TeamName, name) VALUES (?, ?)', [TeamName, name]);
+
+            });
+        }
+        /////////////////////////Add Team ////////////////////////////////////////////
+        function addinfoTeam() {
+            var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            var TeamName = document.getElementById('TeamName').value;
+            var placeinfo = document.getElementById('placeinfo').value;
+            //   alert(TeamName);
+            //  alert(placeinfo);
+            db.transaction(function (tx) {
+                tx.executeSql('CREATE TABLE IF NOT EXISTS Team (TeamName text not null,place text not null)');
+                tx.executeSql('INSERT INTO Team(TeamName, place) VALUES (?, ?)', [TeamName, placeinfo]);
+
+            });
+
+
+        }
+        //
+
+        //  str = str + '<option value=' + rows[i].id + '>' + rows[i].category + '</option>';
+        ///////////////////////////////////Display Team Inforamtion/////////////////////////////
+
+
+        function displayTeamDetails() {
+            var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            db.transaction(function (tx) {
+                tx.executeSql('SELECT * FROM Team', [], function (tx, results) {
+                    var len = results.rows.length;
+                    var i;
+                    var record = "";
+                    //   alert(len);
+                    for (i = 0; i < len; i++) {
+                        //   record = results.rows.item(i).TeamName
+                        record = record + '<option value=' + results.rows.item(i).TeamName + '>' + results.rows.item(i).TeamName + '</option>';
+                        //    alert(record);
+                    }
+                    document.getElementById("teamA").innerHTML = record;
+                    document.getElementById("teamB").innerHTML = record;
+                }, null);
+            });
+        }
+        ////////////////////////////////////Add player ////////////////////////////////////////
+        function addinfoPlayer() {
+            var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            var Name = document.getElementById('Name').value;
+            var Email = document.getElementById('Email').value;
+            var Skills = document.getElementById('Skills').value;
+            var Age = document.getElementById('Age').value;
+            // alert(Name);
+            //  alert(Email);
+            // alert(Skills);
+            //  alert(Age);
+            db.transaction(function (tx) {
+                tx.executeSql('CREATE TABLE IF NOT EXISTS Player (name text not null,email text not null,skills text not null,age not null)');
+                tx.executeSql('INSERT INTO Player(name, email,skills,age) VALUES (?,?,?,?)', [Name, Email, Skills, Age]);
+
+            });
+        }
+        var lst;
+
+        function assignData() {
+            var teamA = document.getElementById("nameofman").value;
+            var six = 0;
+            var four = 0;
+            var Ball = 0;
+            var run = 0;
+            var m = "Not Out";
+            var m1 = "O";
+            if (lst == null) {
+                lst = new Array();
+                lst.push(teamA);
+            }
+            else {
+                lst.push(teamA);
+            }
+            if (lst.length > 11) {
+                alert("Sorry Unable to add")
+            }
+            else {
+                alert(lst);
+                alert(teamA);
+                var tablecontent = "";
+                tablecontent = "<table border>";
+                tablecontent += "<tr>";
+                tablecontent += "<td>Active</td>";
+                tablecontent += "<td>Player Name</td>";
+                tablecontent += "<td>6s</td>";
+                tablecontent += "<td>4s</td>";
+                tablecontent += "<td>Ball</td>";
+                tablecontent += "<td>Run</td>";
+                tablecontent += "<td>Out/Notout</td>"
+                tablecontent += "</tr>";
+                for (var i = 0; i < lst.length; i++) {
+                    tablecontent += "<tr>";
+                    tablecontent += "<td>" + '<input type="radio"  class="b" name="update" size="9" readonly value=' + lst[i] + '>' + m1 + "</td>";
+                    tablecontent += "<td>" + '<input type="text" id="name" name="update" size="9"  readonly value=' + lst[i] + '>' + "</td>";
+                    tablecontent += "<td>" + '<input type="text" id="six" name="update"  size="9"  readonly value=' + six + '>' + "</td>";
+                    tablecontent += "<td>" + '<input type="text" id="four" name="update"  size="9"  readonly value=' + four + '>' + "</td>";
+                    tablecontent += "<td>" + '<input type="text" id="Ball" name="update" size="9"  readonly value=' + Ball + '>' + "</td>";
+                    tablecontent += "<td>" + '<input type="text" id="run" name="update"  size="9"  readonly value=' + run + '>' + "</td>";
+                    tablecontent += "<td>" + '<input type="text" id="m" name="update"  size="9"  readonly value=' + m + '>' + "</td>";
+                    tablecontent += "</tr>";
+                }
+                tablecontent += "</table>";
+                //  alert(tablecontent);
+                document.getElementById('tableInfo').innerHTML = tablecontent;
+                var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+                db.transaction(function (tx) {
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS runentry (teamA text not null,six integer not null,four integer not null,Ball integer not null,run integer not null,m text not null)');
+                    tx.executeSql('INSERT INTO runentry(teamA, six,four,Ball,run,m) VALUES (?,?,?,?,?,?)', [teamA, six, four, Ball, run, m]);
+
+                });
+            }
+            // document.write(tablecontents);
+        }
+        ////////////////////////////////add update//////////////////////////////////////////////////////////
+        function addupdate() {
+            var radidata = document.getElementsByClassName('b');
+            var tot = document.getElementsByClassName('btn1');
+            alert(tot[0].value);
+            alert(radidata[0].value);
+            var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            
+            
+            db.transaction(function (tx) {
+                tx.executeSql('select * from runentry where teama=? ', [radidata[0].value], function (tx, results) {
+                    var len = results.rows.length;
+                    var i;
+                    var record = "";
+                    //   alert(len);
+                    for (i = 0; i < len; i++) {
+                        //   record = results.rows.item(i).teamname
+                        alert(eval(results.rows.item(i).run));
+                        document.getElementById('run').innerHTML = eval(results.rows.item(i).run) + eval(tot);
+                        four = results.rows.item(i).four;
+                        ball = results.rows.item(i).ball;
+                        m = results.rows.item(i).m;
+
+
+                    }
+                   // document.getelementbyid("teama").innerhtml = record;
+                   // document.getelementbyid("teamb").innerhtml = record;
+                }, null);
+            });
+        }
+
+        function addnewGame() {
+            var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            var teamA = document.getElementById('teamA').value;
+            var teamB = document.getElementById('teamB').value;
+            var over = document.getElementById('over').value;
+            var Venue = document.getElementById('Venue').value;
+            //  alert(teamA);
+            //  alert(teamB);
+            //  alert(over);
+            // alert(Venue);
+            db.transaction(function (tx) {
+                tx.executeSql('CREATE TABLE IF NOT EXISTS game (teamA text not null,teamB text not null,over integer not null,Venue not null)');
+                tx.executeSql('INSERT INTO game(teamA, teamB,over,Venue) VALUES (?,?,?,?)', [teamA, teamB, over, Venue]);
+
+            });
+        }
+
+
+
+
+    </script>
+
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addPlayer">Add Player</button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addTeam">Add Team</button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addscore" onclick="addInningToss()">Score</button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#game" onclick="displayTeamDetails()">New Game</button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" onclick="addAuction()" data-target="#addAuction">Auction</button>
+        <!-- Modal -->
+        <div class="modal fade" id="addPlayer" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                        <h4 class="modal-title" id="myModalLabel">Add New player </h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="modal-group">
+                            <label for="Name" class="col-lg-2 control-label"><b>Name</b></label>
+                            <div class="col-lg-2">
+                                <input type="text" class="modal-control" id="Name" placeholder="Name" ng-model="pname" required>
+                            </div>
+                            <label for="Age" class="col-lg-2 control-label"><b>Age</b></label>
+                            <div class="col-lg-10">
+                                <input type="text" class="modal-control" id="Age" placeholder="Age" ng-model="page">
+                            </div>
+                            <label for="Skills" class="col-lg-2 control-label"><b>Skills</b></label>
+                            <div class="col-lg-2">
+                                <input type="text" class="modal-control" id="Skills" placeholder="Skills" ng-model="pskill">
+                            </div>
+                            <label for="inputEmail" class="col-lg-2 control-label"><b>Email</b></label>
+                            <div class="col-lg-2">
+                                <input type="email" class="modal-control" id="Email" placeholder="Email" ng-model="pemail">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addinfoPlayer()">Add Player</button>
+                        <!--    <button type="button" class="btn btn-primary" data-dismiss="modal"> Delete Player</button> /.modal-content -->
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+
+        </div>
+
+        <div class="modal fade" id="addTeam" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                        <h4 class="modal-title" id="myModalLabel">Add New Team </h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="modal-group">
+                            <label for="Name" class="col-lg-2 control-label"><b>Team Name</b></label>
+                            <div class="col-lg-10">
+                                <input type="text" class="modal-control" id="TeamName" placeholder="Name" ng-model="tname" required>
+                            </div>
+
+                            <label for="inputEmail" class="col-lg-2 control-label"><b>Place</b></label>
+                            <div class="col-lg-10">
+                                <input type="email" class="modal-control" id="placeinfo" placeholder="place" ng-model="tplace">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addinfoTeam()">Add Team</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"> Delete Team</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+
+        </div><!-- /.modal -->
+
+        <div class="modal fade" id="addscore" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Toss</h4>
+                    </div>
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+
+                            <div class="col-sm-10">
+                                Select Team(Bating)<select class="form-control" id="teamW" name="teamname" placeholder="Select Team"></select>
+                            </div>
+
+                            <div class="col-sm-10">
+                                Select Team<select class="form-control" id="teamLower" name="teamname" placeholder="Select Team"></select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" value="Submit" data-dismiss="modal" data-toggle="modal" data-target="#displayRun" onclick="loadInfo()" />
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal fade" id="displayRun" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                        <h4 class="modal-title" id="myModalLabel">Score Details</h4>
+                    </div>
+                    First Inning Bating:-
+                    <div id="tableInfo">
+
+                    </div>
+
+                    <div class="modal-footer">
+                        Select BatsMan<select id="nameofman" name="pickdata"></select>
+                        <button type="button" class="btn btn-primary" onclick="assignData()">Add Player</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#box">Add Run</button>
+                    </div>
+                    First Inning :-
+                    <table>
+                        <tr>
+                            <td>Name</td>
+                            <td>No</td>
+                            <td>Wide</td>
+                            <td>Run</td>
+                            <td>Extra</td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" size="10" id="Bname" value="0" readonly /></td>
+                            <td><input type="text" size="10" id="No" value="0" readonly /></td>
+                            <td><input type="text" size="10" id="Wide" value="0" readonly /></td>
+                            <td><input type="text" size="10" id="Run" value="0" readonly /></td>
+                            <td><input type="text" size="10" id="extra" value="0" readonly /></td>
+                        </tr>
+                    </table>
+                    <div class="modal-footer">
+                        Select <select id="nameofman1" name="pickdata1"></select>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Add Bolwer</button>
+                    </div>
+                    <form class="form-horizontal" role="form"> </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+
+        </div><!-- /.modal -->
+        <div class="modal fade" id="box" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Run</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="btn-group">
+
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-lg-10">
+
+                                <button type="button" class="btn1" value="1" onclick="addupdate()" data-target="#displayRun" data-toggle="modal">1</button>
+                                <button type="button" class="btn1" value="2" onclick="addupdate()">2</button>
+                                <button type="button" class="btn1" value="3" onclick="addupdate()">3</button>
+                                <button type="button" class="btn1" value="4" onclick="addupdate()">4</button>
+                                <button type="button" class="btn1" value="5" onclick="addupdate()">5</button>
+                                <button type="button" class="btn1" value="6" onclick="addupdate()">6</button>
+                            </div>
+                            <div class="col-lg-10">
+                                <h2>Extras</h2>
+                                <button type="button" class="btn1"  value="1" onclick="addupdate()">No ball</button>
+                                <button type="button" class="btn1"  value="1" onclick="addupdate()">wide</button>
+                                <button type="button" class="btn1"  value="1" onclick="addupdate()">L byes1</button>
+                                <button type="button" class="btn1"  value="2" onclick="addupdate()">L byes2</button>
+
+                            </div>
+                            <div class="col-lg-10">
+                                <button type="button" class="btn1"  value="3" onclick="addupdate()">L byes3</button>
+                                <button type="button" class="btn1"  value="4" onclick="addupdate()">L byes4</button>
+                                <button type="button" class="btn1"  value="1" onclick="addupdate()">Byes 1</button>
+                                <button type="button" class="btn1"  value="2" onclick="addupdate()">Byes 2</button>
+                                <button type="button" class="btn1"  value="3" onclick="addupdate()">Byes 3</button>
+                                <button type="button" class="btn1"  value="4" onclick="addupdate()">Byes 4</button>
+                            </div>
+                            <div class="col-lg-10">
+                                <h2>Out Details</h2>
+                                <button type="button" id="boldbtn" value="Bold" onclick="addout()">Bold</button>
+                                <button type="button" id="runbtn"  value="Run Out" onclick="addout()">Run Out</button>
+                                <button type="button" id="lbbtn"   value="lbw" onclick="addout()">LBW</button>
+                                <button type="button" id="catchbtn"value="2" onclick="addout()">Catch Out</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="game" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">New Game</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="TeamA">Team A:</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" id="teamA" placeholder="Select Team"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="TeamB">Team B:</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" id="teamB" placeholder="Select Team"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Over">Over</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="over" placeholder="over">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Venue">Venue</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="Venue" placeholder="venue">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="addnewGame()">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal fade" id="addAuction" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Auction Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="TeamA">Team Name:</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" id="teamAA" placeholder="Select Team"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="TeamB">Player Name:</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" id="teamBB" placeholder="Select Team"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="addinfoAuction()">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>
